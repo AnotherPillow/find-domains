@@ -13,7 +13,7 @@ def main():
         for line in inp:
             p1 = line.split(" ")
             
-            if p1.__len__() == 3:
+            if p1.__len__() == 5:
                 p1 = p1[2].replace("$","")
                 prices.append(float(p1))
 
@@ -21,7 +21,7 @@ def main():
         #sort input by price
         for line in inp:
             p1 = line.split(" ")
-            if p1.__len__() == 3:
+            if p1.__len__() == 5:
                 p1 = p1[2].replace("$","")
                 output.append((line, float(p1)))
         output.sort(key=lambda x: x[1])
