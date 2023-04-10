@@ -60,7 +60,8 @@ elif "w" in modes:
     with open("aws-domains-price.txt", "r") as f:
         with open("domains-price.txt", "w") as f2:
             for line in f.readlines():
-                f2.write(line + " aws\n")
+                if "." in line.strip():
+                    f2.write(line.strip() + " aws\n")
         f2.close()
     f.close()
     print(colour(1, "Copied aws-domains-price.txt to domains-price.txt"))
