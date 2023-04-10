@@ -9,13 +9,13 @@ def main():
     out_path = "output-available-sorted.txt"
 
     if mode == "p":
-        prices = []
-        for line in inp:
-            p1 = line.split(" ")
+        # prices = []
+        # for line in inp:
+        #     p1 = line.split(" ")
             
-            if p1.__len__() >= 3:
-                p1 = p1[2].replace("$","")
-                prices.append(float(p1))
+        #     if p1.__len__() == 3 or p1.__len__() == 5:
+        #         p1 = p1[2].replace("$","")
+        #         prices.append(float(p1))
 
             
         #sort input by price
@@ -23,7 +23,10 @@ def main():
             p1 = line.split(" ")
             if p1.__len__() >= 3:
                 p1 = p1[2].replace("$","")
+                
                 output.append((line, float(p1)))
+            else:
+                output.append((line, float(999999)))
         output.sort(key=lambda x: x[1])
 
     elif mode == "l":
