@@ -1,9 +1,12 @@
-# Parse AWS Domains file
+# Find Domains
 
-A basic program to parse [this file](https://docs.aws.amazon.com/general/latest/gr/rande.html)
+A basic program to find domains to buy.
 
 ## Usage
 
-1. Download the file and put it in the same directory as the program
-2. Download the dependencies with `pip install -r requirements.txt`
-3. Run the program with `py main.py`
+1. Download the dependencies with `pip install -r requirements.txt`
+2. Run the program with `py main.py`
+
+## Notes
+
+- Namecheap prices are based on a random domain and may not be accurate for your domain.

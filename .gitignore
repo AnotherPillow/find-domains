@@ -1,6 +1,8 @@
 Amazon_Route_53_Domain_Registration_Pricing_20140731.pdf
 *.txt
 !requirements.txt
+!namecheap*
 temp/
 __pycache__/
 *.pyc
+scripts/

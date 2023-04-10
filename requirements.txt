@@ -1,3 +1,4 @@
 tika
 colorama
 python-whois
+requests

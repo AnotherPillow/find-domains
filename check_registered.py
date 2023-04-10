@@ -37,6 +37,7 @@ def check_registered():
     for domain in domains:
         TLDs = [x.split(" ")[0] for x in open("domains-price.txt", "r").readlines()]
         prices = [x.split(" ")[1] for x in open("domains-price.txt", "r").readlines()]
+        sources = [x.split(" ")[2] for x in open("domains-price.txt", "r").readlines()]
 
         output = ""
 
@@ -48,18 +49,19 @@ def check_registered():
             #check if registered
             trimmedprice = prices[i].replace("\n", "")
             out = ""
+            source = sources[i].strip()
             try:
                 data = whois.whois(domain + tld)
                 if data.domain_name:
                     print(colour(0, f"{domain}{tld} is registered"))
                     out = f"{domain}{tld} registered\n"
                 else:
-                    print(colour(1, f"{domain}{tld} is available for {trimmedprice}"))
-                    out = f"{domain}{tld} available {trimmedprice}\n"
+                    print(colour(1, f"{domain}{tld} is available for {trimmedprice} from {source}"))
+                    out = f"{domain}{tld} available {trimmedprice} from {source}\n"
             except Exception as e:
-                print(colour(3, f"Unable to check {domain}{tld}, may be available for {trimmedprice}"))
+                print(colour(3, f"Unable to check {domain}{tld}, may be available for {trimmedprice} from {source}"))
                 print(colour(0, f"Error: {str(e)[:100]}..."))
-                out = f"{domain}{tld} error {trimmedprice}\n"
+                out = f"{domain}{tld} error {trimmedprice} from {source}\n"
             output += out
             time.sleep(0.1)
 

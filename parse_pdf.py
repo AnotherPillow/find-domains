@@ -11,7 +11,7 @@ def main(parse=True):
         raw = parser.from_file('Amazon_Route_53_Domain_Registration_Pricing_20140731.pdf')
         lines = raw['content'].splitlines()
     else:
-        lines = open('domains-alphabetical.txt', 'r').readlines()
+        lines = open('aws-domains-alphabetical.txt', 'r').readlines()
 
     t_a = ''
 
@@ -27,7 +27,7 @@ def main(parse=True):
             name = matched.group(1)
             price1 = matched.group(2)
             #print(f"{name}: {price1}")
-            t_a += f".{name} ${price1}\n"
+            t_a += f".{name} ${price1} aws\n"
 
     
 
@@ -53,7 +53,7 @@ def main(parse=True):
 
     print(colour(1, "Sorted by alphabetical order"))
     
-    with open('domains-alphabetical.txt', 'w') as f:
+    with open('aws-domains-alphabetical.txt', 'w') as f:
         f.write(t_a)
         f.close()
 
@@ -76,9 +76,9 @@ def main(parse=True):
     #give them the domain names
     prices = []
     for price in prices_sort:
-        prices.append(f'{price["domain"]} ${str(price["price"])}0\n')
+        prices.append(f'{price["domain"]} ${str(price["price"])}0 aws\n')
 
-    with open('domains-price.txt', 'w') as f:
+    with open('aws-domains-price.txt', 'w') as f:
         f.write("".join(prices))
         f.close()
     print(colour(1, "Sorted by price"))

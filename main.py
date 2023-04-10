@@ -1,20 +1,89 @@
-import colorama
+import requests, os, colorama
 from check_registered import check_registered, colour
 
 colorama.just_fix_windows_console()
 
-toparse = input(colour(4, "Parse PDF file (may take a while and is not necessary if this is not your first run)? (y/n) ")).startswith("y")
+def aws():
+    if not os.path.exists("Amazon_Route_53_Domain_Registration_Pricing_20140731.pdf"):
+        print(colour(1, "Downloading AWS PDF..."))
+        r = requests.get("https://d32ze2gidvkk54.cloudfront.net/Amazon_Route_53_Domain_Registration_Pricing_20140731.pdf")
+        with open("Amazon_Route_53_Domain_Registration_Pricing_20140731.pdf", "wb") as f:
+            f.write(r.content)
+            f.close()
+        print(colour(1, "Downloaded AWS PDF"))
 
-if toparse:
-    print(colour(1, "Parsing PDF file..."))
-    import parse_pdf
-    parse_pdf.main()
-    print(colour(1, "Parsed PDF file"))
+    print(colour(1, "Downloading AWS TLDs..."))
+
+
+
+    toparse = input(colour(4, "Parse AWS PDF file (may take a while and is not necessary if this is not your first run)? (y/n) ")).startswith("y")
+
+    if toparse:
+        print(colour(1, "Parsing PDF file..."))
+        import parse_pdf
+        parse_pdf.main()
+        print(colour(1, "Parsed PDF file"))
+    else:
+        print(colour(1, "Skipping PDF parsing"))
+
+def namecheap():
+    pass
+
+
+mode = input(colour(4, "What sites do you want to check? (n)amecheap, a(w)s, (a)ll: "))
+modes = []
+if mode == "a":
+    modes = ["n", "w", "a"]
 else:
-    print(colour(1, "Skipping PDF parsing"))
+    modes.append(mode)
+
+if "w" in modes:
+    aws()
+if "n" in modes:
+    namecheap()
+
+if "a" in modes:
+    #merge aws-domains-price.txt and namecheap-domains-price.txt into domains-price.txt and sort it
+    print(colour(1, "Merging and sorting..."))
+    aws_domains = open("aws-domains-price.txt", "r").readlines()
+    nc_domains = open("namecheap-domains-price.txt", "r").readlines()
+    domains = aws_domains + nc_domains
+    domains.sort(key=lambda x: float(x.split(" ")[1].replace("$","")))
+    with open("domains-price.txt", "w") as f:
+        for line in domains:
+            f.write(line)
+        f.close()
+    print(colour(1, "Merged and sorted"))
+
+elif "w" in modes:
+    print(colour(1, "Copying aws-domains-price.txt to domains-price.txt..."))
+    with open("aws-domains-price.txt", "r") as f:
+        with open("domains-price.txt", "w") as f2:
+            for line in f.readlines():
+                f2.write(line + " aws\n")
+        f2.close()
+    f.close()
+    print(colour(1, "Copied aws-domains-price.txt to domains-price.txt"))
+
+elif "n" in modes:
+    print(colour(1, "Copying namecheap-domains-price.txt to domains-price.txt..."))
+    with open("namecheap-domains-price.txt", "r") as f:
+        with open("domains-price.txt", "w") as f2:
+            for line in f.readlines():
+                f2.write(line + " namecheap\n")
+        f2.close()
+    f.close()
+    print(colour(1, "Copied namecheap-domains-price.txt to domains-price.txt"))
+
+
+
+
 
 
 check_registered()
 
 import sort_takenavailable
 sort_takenavailable.main()
+
+print(colour(1, "Done!"))
+print(colour(1, "Find your output in output-available-sorted.txt"))
