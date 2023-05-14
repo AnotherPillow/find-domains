@@ -29,11 +29,14 @@ def aws():
 def namecheap():
     pass
 
+def ovh():
+    pass
 
-mode = input(colour(4, "What sites do you want to check? (n)amecheap, a(w)s, (a)ll: "))
+
+mode = input(colour(4, "What sites do you want to check? (n)amecheap, a(w)s, (o)vh, (a)ll: "))
 modes = []
 if mode == "a":
-    modes = ["n", "w", "a"]
+    modes = ["n", "w", "a", "o"]
 else:
     modes.append(mode)
 
@@ -41,13 +44,16 @@ if "w" in modes:
     aws()
 if "n" in modes:
     namecheap()
+if "o" in modes:
+    ovh()
 
 if "a" in modes:
     #merge aws-domains-price.txt and namecheap-domains-price.txt into domains-price.txt and sort it
     print(colour(1, "Merging and sorting..."))
     aws_domains = open("aws-domains-price.txt", "r").readlines()
     nc_domains = open("namecheap-domains-price.txt", "r").readlines()
-    domains = aws_domains + nc_domains
+    ovh_domains = open("ovh-domains.txt", "r", encoding="utf-8").readlines()
+    domains = aws_domains + nc_domains + ovh_domains
     domains.sort(key=lambda x: float(x.split(" ")[1].replace("$","")))
     with open("domains-price.txt", "w") as f:
         for line in domains:
@@ -75,11 +81,15 @@ elif "n" in modes:
         f2.close()
     f.close()
     print(colour(1, "Copied namecheap-domains-price.txt to domains-price.txt"))
-
-
-
-
-
+elif "o" in modes:
+    print(colour(1, "Copying ovh-domains.txt to domains-price.txt..."))
+    with open("ovh-domains.txt", "r") as f:
+        with open("domains-price.txt", "w") as f2:
+            for line in f.readlines():
+                f2.write(line.strip() + "\n")
+        f2.close()
+    f.close()
+    print(colour(1, "Copied ovh-domains.txt to domains-price.txt"))
 
 check_registered()
 
