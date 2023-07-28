@@ -52,7 +52,9 @@ def check_registered():
             source = sources[i].strip()
             try:
                 data = whois.whois(domain + tld)
-                if data.domain_name:
+                # print(colour(0, f"Whois for {domain}{tld}"))
+                # print(data)
+                if data.domain_name is not None and data.domain_name == domain + tld:
                     print(colour(0, f"{domain}{tld} is registered"))
                     out = f"{domain}{tld} registered\n"
                 else:
