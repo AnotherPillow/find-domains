@@ -90,6 +90,9 @@ elif "o" in modes:
         f2.close()
     f.close()
     print(colour(1, "Copied ovh-domains.txt to domains-price.txt"))
+else:
+    print(colour(0, "No sites selected!"))
+    exit()
 
 check_registered()
 

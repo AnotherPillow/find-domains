@@ -54,7 +54,9 @@ def check_registered():
                 data = whois.whois(domain + tld)
                 # print(colour(0, f"Whois for {domain}{tld}"))
                 # print(data)
-                if data.domain_name is not None and data.domain_name.lower() == f"{domain}{'.' if not tld.startswith('.') else ''}{tld}".lower():
+                dn = data.domain_name[0] if type(data.domain_name) is list else data.domain_name
+                
+                if dn is not None and dn.lower() == f"{domain}{'.' if not tld.startswith('.') else ''}{tld}".lower():
                     print(colour(0, f"{domain}{tld} is registered"))
                     out = f"{domain}{tld} registered\n"
                 else:
