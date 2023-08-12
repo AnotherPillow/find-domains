@@ -1,5 +1,9 @@
-import requests, os, colorama
+import requests, os, colorama, sys, argparse
 from check_registered import check_registered, colour
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--debug", help="enable debug mode", action="store_true")
+args = parser.parse_args()
 
 colorama.just_fix_windows_console()
 
@@ -94,7 +98,8 @@ else:
     print(colour(0, "No sites selected!"))
     exit()
 
-check_registered()
+print(colour(4, f'Debug mode is {"enabled" if args.debug else "disabled"}'))
+check_registered(args.debug)
 
 import sort_takenavailable
 sort_takenavailable.main()

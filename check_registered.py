@@ -1,4 +1,5 @@
-import whois, colorama, time
+import whois, colorama, time, json
+from datetime import datetime
 
 def colour(id, text):
     # id = 0: red
@@ -21,12 +22,14 @@ def colour(id, text):
 
     return str + text + colorama.Fore.RESET
 
-def check_registered():
+def check_registered(debug_mode=False):
     domainss = input(colour(4, 'Enter a domain name (split multiple by ","): '))
 
     with open("output-available-taken.txt", "w"): pass
 
-
+    debug_json = {
+        "domains": []
+    }
     
 
     domains = domainss.split(",")
@@ -66,6 +69,13 @@ def check_registered():
                 print(colour(3, f"Unable to check {domain}{tld}, may be available for {trimmedprice} from {source}"))
                 print(colour(0, f"Error: {str(e)[:100]}..."))
                 out = f"{domain}{tld} error {trimmedprice} from {source}\n"
+            debug_json["domains"].append({
+                "domain": domain + tld,
+                "status": out,
+                "price": trimmedprice,
+                "source": source,
+                "data": data,
+            })
             output += out
             time.sleep(0.1)
 
@@ -73,3 +83,9 @@ def check_registered():
         with open("output-available-taken.txt", "a") as f:
             f.write(output)
             f.close()
+
+        if debug_mode:
+            print(debug_json)
+            with open("debug.json", "w") as f:
+                f.write(json.dumps(debug_json, indent=4, default=str))
+                f.close()
