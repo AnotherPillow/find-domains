@@ -7,20 +7,20 @@ def colour(id, text):
     # id = 2: default
     # id = 3: yellow
 
-    str = ""
+    out = ""
 
     if id == 0:
-        str = colorama.Fore.RED
+        out = colorama.Fore.RED
     elif id == 1:
-        str = colorama.Fore.GREEN
+        out = colorama.Fore.GREEN
     elif id == 2:
-        str = colorama.Fore.RESET
+        out = colorama.Fore.RESET
     elif id == 3:
-        str = colorama.Fore.YELLOW
+        out = colorama.Fore.YELLOW
     elif id == 4:
-        str = colorama.Fore.CYAN
+        out = colorama.Fore.CYAN
 
-    return str + text + colorama.Fore.RESET
+    return out + text + colorama.Fore.RESET
 
 def check_registered(debug_mode=False):
     domainss = input(colour(4, 'Enter a domain name (split multiple by ","): '))
@@ -69,6 +69,7 @@ def check_registered(debug_mode=False):
                 print(colour(3, f"Unable to check {domain}{tld}, may be available for {trimmedprice} from {source}"))
                 print(colour(0, f"Error: {str(e)[:100]}..."))
                 out = f"{domain}{tld} error {trimmedprice} from {source}\n"
+            
             debug_json["domains"].append({
                 "domain": domain + tld,
                 "status": out,
@@ -76,6 +77,7 @@ def check_registered(debug_mode=False):
                 "source": source,
                 "data": data,
             })
+
             output += out
             time.sleep(0.1)
 
